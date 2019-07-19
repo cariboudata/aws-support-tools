@@ -94,7 +94,14 @@ echo "(Optional) REDShift Data Insert Mode: $REDIns"
 set -e
 
 #1. Install PSQL client that matches the version of your Postgresql Source and target Redshift
-sudo yum install mysql postgresql93 -y
+#sudo yum install mysql postgresql93 -y
+
+
+sudo rpm -ivh --force https://yum.postgresql.org/testing/10/redhat/rhel-6-x86_64/postgresql10-libs-10.7-2PGDG.rhel6.x86_64.rpm
+sudo rpm -ivh --force https://yum.postgresql.org/testing/10/redhat/rhel-6-x86_64/postgresql10-10.7-2PGDG.rhel6.x86_64.rpm
+
+
+
 
 
 #2. Parse RDS Jdbc Connect String

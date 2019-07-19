@@ -1,0 +1,17 @@
+{
+  "values": {
+    "myRedshiftUsername": "rds_to_redshift_test",
+    "myRDSUsername": "mosaics_r",
+    "myS3StagingLoc": "s3://data-pipeline-ew1/",
+    "myRedshiftJdbcConnectStr": "jdbc:redshift://redshift-ew1-mosaics.cbqggadp6kz1.eu-west-1.redshift.amazonaws.com:5439/rds_to_redshift_test",
+    "*myRedshiftPassword": "bitwarden",
+    "myInsertMode": "APPEND",
+    "myRDSJdbcConnectStr": "jdbc:postgresql://rds-ew1-d-mosaics.ckhnnyqylbgj.eu-west-1.rds.amazonaws.com:5432/mosaics",
+    "*myRDSPassword": "bitwarden",
+    "myRedshiftTableName": "mytesttable",
+    "myRDSTableName": "ref.devices",
+    "myRedshiftTablePrimaryKey": "mytestpk",
+    "myRDSRedshiftSecurityGrps": ["dev-setup", "instances-api"],
+    "myRedshiftTypeConvOverrideMap": ""
+  }
+}

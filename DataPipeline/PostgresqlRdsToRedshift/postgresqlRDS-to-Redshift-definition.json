@@ -14,7 +14,7 @@
       "name": "S3ToRedshiftCopyActivity",
       "id": "S3ToRedshiftCopyActivity",
       "runsOn": {
-        "ref": "myEc2Instance"
+        "ref": "Ec2Instance"
       },
       "type": "RedshiftCopyActivity",
       "insertMode": "#{myInsertMode}"
@@ -30,7 +30,7 @@
       "name": "RDSToS3CopyActivity",
       "id": "RDSToS3CopyActivity",
       "runsOn": {
-        "ref": "myEc2Instance"
+        "ref": "Ec2Instance"
       },
       "type": "CopyActivity"
     },
@@ -58,7 +58,7 @@
       "input": {
         "ref": "SrcRDSTable"
       },
-      "scriptUri": "s3://testbucket/scripts/dbconv_psqlRDStoRedshift.sh",
+      "scriptUri": "s3://data-pipeline-ew1/dbconv_psqlRDStoRedshift.sh",
       "dependsOn": {
         "ref": "RDSToS3CopyActivity"
       },
@@ -79,7 +79,7 @@
       ],
       "id": "RedshiftTableCreateActivity",
       "runsOn": {
-        "ref": "myEc2Instance"
+        "ref": "Ec2Instance"
       },
       "type": "ShellCommandActivity"
     },
@@ -95,24 +95,21 @@
       "name": "S3StagingCleanupActivity",
       "id": "S3StagingCleanupActivity",
       "runsOn": {
-        "ref": "myEc2Instance"
+        "ref": "Ec2Instance"
       },
       "type": "ShellCommandActivity",
       "command": "(sudo yum -y update aws-cli) && (aws s3 rm #{input.directoryPath} --recursive)"
     },
     {
       "myComment" : "Your Ec2 resource to run your pipeline activities. keyPair,subnetId and securityGroupIds are optional, if used please refer yours",
-      "subnetId": "subnet-7b3a9f46",
-      "securityGroupIds": [
-        "sg-f3973b95",
-        "sg-068b2160"
-      ],
-      "instanceType": "m3.medium",
-      "name": "myEc2Instance",
-      "keyPair": "ec2-VA-keypair",
-      "id": "myEc2Instance",
+      "instanceType": "t1.micro",
+      "name": "Ec2Instance",
+      "id": "Ec2Instance",
       "type": "Ec2Resource",
-      "terminateAfter": "2 Hours"
+      "subnetId": "subnet-08f915d2d9942f119",
+      "securityGroupIds": ["sg-05702ea580ddf5622", "sg-0e5843fba4d022ccc"],
+      "keyPair": "caribou-mosaics-dev",
+      "terminateAfter": "10 Hours"
     },
     {
       "myComment" : "Your source RDS DB details",
@@ -142,9 +139,9 @@
     {
       "myComment" : "Default Pipeline object that defines IAM roles, pipeline log bucket path and Schedule",
       "failureAndRerunMode": "CASCADE",
-      "resourceRole": "DataPipelineDefaultResourceRole",
-      "role": "DataPipelineDefaultRole",
-      "pipelineLogUri": "s3://testbucket/logs/",
+      "resourceRole": "mosaics-data-pipeline-resources",
+      "role": "mosaics-data-pipeline",
+      "pipelineLogUri": "s3://data-pipeline-ew1/logs/",
       "scheduleType": "ONDEMAND",
       "name": "Default",
       "id": "Default"
@@ -244,19 +241,5 @@
       "id": "myRedshiftJdbcConnectStr",
       "type": "String"
     }
-  ],
-  "values": {
-    "myRedshiftUsername": "",
-    "myRDSUsername": "",
-    "myS3StagingLoc": "",
-    "myRedshiftJdbcConnectStr": "",
-    "*myRedshiftPassword": "",
-    "myInsertMode": "",
-    "myRDSJdbcConnectStr": "",
-    "myRDSRedshiftSecurityGrps": "",
-    "*myRDSPassword": "",
-    "myRedshiftTableName": "",
-    "myRDSTableName": "",
-    "myRedshiftTablePrimaryKey": ""
-  }
+  ]
 }
